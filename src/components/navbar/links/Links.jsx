@@ -1,6 +1,9 @@
-import Link from "next/link";
+"use client"
 
-const Links = () => {
+import { useState } from "react";
+import NavLink from "./navLink/navLink";
+import styles from "./links.module.scss";
+
 
     const links = [
         {
@@ -25,13 +28,19 @@ const Links = () => {
         },
     ];
 
+
+const Links = () => {
+    const [open, setOpen] = useState(false);   
     return (
-        <div>
+        <div className={styles.container}>
+          <div className={styles.links}>
             {links.map((link=>(
-                <Link href={link.path} key={link.title}>{link.title}</Link>
+              <NavLink item={link} key={link.title}/>
             )))}
-        </div>
+          
+          </div>
+      </div>
     )
 }
 
-export default Links
+export default Links;
