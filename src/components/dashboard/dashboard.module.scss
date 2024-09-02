@@ -2,14 +2,14 @@
     display: flex;
     // width: 86vw;
     margin: auto;
-    gap: 2;
   }
   
   .textContainer {
     flex: 1;
     align-items: center;
     display: flex;
-    padding-left: 3rem;
+    margin: 0 4em;
+    padding: 2em;
     flex-direction: column;
     gap: 1.6em;
   }
@@ -18,10 +18,12 @@
     font-size: 62px;
     line-height: 1.2;
     font-weight: 800;
+    margin-left: 1.2em;
   }
   
   .desc{
     font-size: 20px;
+    margin-left: 3.8em;
   }
   
   .buttons{
