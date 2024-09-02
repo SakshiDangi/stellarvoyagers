@@ -24,9 +24,8 @@
 }
 
 body{
-    margin: 0px;
     background-color: #000;
-    /* background-image: url("../../public/assets/bg.png"); */
+    /* background-image: url("../../public/assets/bg.gif"); */
     font-family: 'Avant Garde Book BT';
     color: white;
 }

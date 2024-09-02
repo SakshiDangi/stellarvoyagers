@@ -5,7 +5,7 @@ export default function Dashboard() {
   return (
     <div className={styles.container}>
       <div className={styles.textContainer}>
-        <h1 className={styles.title}>Cultivating Scientific Literacy: Essential Learning for Every Child.</h1>
+        <h1 className={styles.title}>Command the Stars: Your Hub for Cosmic Exploration</h1>
         <p className={styles.desc}>
         Embark on a journey through Stellar Voyagers from an early age! With engaging content and interactive platforms, we empower young minds to reach for the stars while cultivating a strong scientific temperament and literacy.
         </p>
