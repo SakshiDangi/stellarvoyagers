@@ -1,148 +1,78 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-import { Post, User } from "./models";
+import NextAuth from "next-auth";
+import GitHub from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDb } from "./utils";
-import { signIn, signOut } from "./auth";
+import { User } from "./models";
 import bcrypt from "bcryptjs";
+import { authConfig } from "./auth.config";
 
-export const addPost = async (prevState,formData) => {
-  // const title = formData.get("title");
-  // const desc = formData.get("desc");
-  // const slug = formData.get("slug");
-
-  const { title, desc, slug, userId } = Object.fromEntries(formData);
-
+const login = async (credentials) => {
   try {
     connectToDb();
-    const newPost = new Post({
-      title,
-      desc,
-      slug,
-      userId,
-    });
+    const user = await User.findOne({ username: credentials.username });
 
-    await newPost.save();
-    console.log("saved to db");
-    revalidatePath("/blog");
-    revalidatePath("/admin");
+    if (!user) throw new Error("Wrong credentials!");
+
+    const isPasswordCorrect = await bcrypt.compare(
+      credentials.password,
+      user.password
+    );
+
+    if (!isPasswordCorrect) throw new Error("Wrong credentials!");
+
+    return user;
   } catch (err) {
     console.log(err);
-    return { error: "Something went wrong!" };
+    throw new Error("Failed to login!");
   }
 };
 
-export const deletePost = async (formData) => {
-  const { id } = Object.fromEntries(formData);
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
+  ...authConfig,
+  providers: [
+    GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+    CredentialsProvider({
+      async authorize(credentials) {
+        try {
+          const user = await login(credentials);
+          return user;
+        } catch (err) {
+          return null;
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      if (account.provider === "github") {
+        connectToDb();
+        try {
+          const user = await User.findOne({ email: profile.email });
 
-  try {
-    connectToDb();
+          if (!user) {
+            const newUser = new User({
+              username: profile.login,
+              email: profile.email,
+              image: profile.avatar_url,
+            });
 
-    await Post.findByIdAndDelete(id);
-    console.log("deleted from db");
-    revalidatePath("/blog");
-    revalidatePath("/admin");
-  } catch (err) {
-    console.log(err);
-    return { error: "Something went wrong!" };
-  }
-};
-
-export const addUser = async (prevState,formData) => {
-  const { username, email, password, img } = Object.fromEntries(formData);
-
-  try {
-    connectToDb();
-    const newUser = new User({
-      username,
-      email,
-      password,
-      img,
-    });
-
-    await newUser.save();
-    console.log("saved to db");
-    revalidatePath("/admin");
-  } catch (err) {
-    console.log(err);
-    return { error: "Something went wrong!" };
-  }
-};
-
-export const deleteUser = async (formData) => {
-  const { id } = Object.fromEntries(formData);
-
-  try {
-    connectToDb();
-
-    await Post.deleteMany({ userId: id });
-    await User.findByIdAndDelete(id);
-    console.log("deleted from db");
-    revalidatePath("/admin");
-  } catch (err) {
-    console.log(err);
-    return { error: "Something went wrong!" };
-  }
-};
-
-export const handleGithubLogin = async () => {
-  "use server";
-  await signIn("github");
-};
-
-export const handleLogout = async () => {
-  "use server";
-  await signOut();
-};
-
-export const register = async (previousState, formData) => {
-  const { username, email, password, img, passwordRepeat } =
-    Object.fromEntries(formData);
-
-  if (password !== passwordRepeat) {
-    return { error: "Passwords do not match" };
-  }
-
-  try {
-    connectToDb();
-
-    const user = await User.findOne({ username });
-
-    if (user) {
-      return { error: "Username already exists" };
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-      img,
-    });
-
-    await newUser.save();
-    console.log("saved to db");
-
-    return { success: true };
-  } catch (err) {
-    console.log(err);
-    return { error: "Something went wrong!" };
-  }
-};
-
-export const login = async (prevState, formData) => {
-  const { username, password } = Object.fromEntries(formData);
-
-  try {
-    await signIn("credentials", { username, password });
-  } catch (err) {
-    console.log(err);
-
-    if (err.message.includes("CredentialsSignin")) {
-      return { error: "Invalid username or password" };
-    }
-    throw err;
-  }
-};
+            await newUser.save();
+          }
+        } catch (err) {
+          console.log(err);
+          return false;
+        }
+      }
+      return true;
+    },
+    ...authConfig.callbacks,
+  },
+});
