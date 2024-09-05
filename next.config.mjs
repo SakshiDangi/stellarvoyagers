@@ -6,6 +6,10 @@ const nextConfig = {
         source: '/api/:path*',
         destination: 'https://stellarvoyagers.vercel.app/:path*',
       },
+      {
+        source: '/blog/:slug',
+        destination: '/news/:slug', // Matched parameters can be used in the destination
+      },
     ]
   },
 
