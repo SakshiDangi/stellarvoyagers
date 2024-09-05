@@ -21,19 +21,6 @@ const nextConfig = {
       },
     ]
   },
-  trailingSlash: true,
-  async rewrites() {
-    return [
-      {
-        source: '/blog',
-        destination: 'https://example.com/blog',
-      },
-      {
-        source: '/blog/:slug',
-        destination: 'https://example.com/blog/:slug', // Matched parameters can be used in the destination
-      },
-    ]
-  },
 
   images:{
       remotePatterns:[
