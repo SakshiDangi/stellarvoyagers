@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-    --bg: #0d0c22;
-    --bgSoft: #2d2b42;
+    --bg: #0f0f0f;
+    --bgSoft: #0f0f0f;
     --text: white;
     --textSoft: #e5e5e5;
-    --btn: #3673fd;
+    --btn: #ec4e39;
   }
   
   * {

@@ -1,0 +1,50 @@
+
+
+  
+  .post{
+    width: calc(33% - 10px);
+    overflow: hidden;
+  }
+  
+  .postImg{
+    width: 100px;
+    border-radius: 6px;
+    transition: .3s linear;
+  }
+  
+  .postContent{
+    background-color: #ffffffdd;
+    margin: 0 20px;
+    padding: 30px;
+    border-radius: 6px;
+    transform: translateY(-60px);
+    transition: .3s linear;
+  }
+  
+  .postContent h3{
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .date{
+    font-size: 15px;
+    font-style: italic;
+    color: #e77f67;
+  }
+  
+  .post:hover .postImg{
+    transform: translateY(20px);
+  }
+  
+  .post:hover .postContent{
+    transform: translateY(-80px);
+  }
+  
+  @media screen and (max-width: 1200px){
+    .blogPosts{
+      justify-content: center;
+    }
+    .post{
+      width: min(600px, 100%);
+    }
+  }
