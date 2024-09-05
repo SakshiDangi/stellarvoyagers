@@ -10,8 +10,8 @@ export default function Dashboard() {
         Embark on a journey through Stellar Voyagers from an early age! With engaging content and interactive platforms, we empower young minds to reach for the stars while cultivating a strong scientific temperament and literacy.
         </p>
         <div className={styles.buttons}>
-          <button className={styles.button}>Learn More</button>
-          <button className={styles.button}>Contact</button>
+          <button className={styles.button}><a href="/join">Join Us</a></button>
+          <button className={styles.button}><a href="/register">Read More..</a></button>
         </div>
         <div className={styles.brands}>
           <Image src="/brands.png" alt="" fill className={styles.brandImg}/>

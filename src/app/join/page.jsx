@@ -10,7 +10,7 @@ const JoinForm = ({userId}) => {
   return (
     <form action={formAction} className={styles.container}>
       <div>
-      <h1 className={styles.heading}>Join Us Please Fill this Form</h1>
+      <h1 className={styles.heading}>Please Fill this Form</h1>
       <p>What is the day in the life of an astrologist? What does an astronaut do for fun?</p>
       <p className={styles.p}>If you want to connect with and from a scientist, engineers, or other STEM professionals? Submit your question to be a part of team.</p>
       </div>
