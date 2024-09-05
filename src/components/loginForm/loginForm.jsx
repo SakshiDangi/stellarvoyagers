@@ -10,7 +10,6 @@ const LoginForm = () => {
 
   return (
     <form className={styles.form} action={formAction}>
-      <p>For Admin username: test1 & password: test123</p>
       <input type="text" placeholder="username" name="username" />
       <input type="password" placeholder="password" name="password" />
       <button>Login</button>
