@@ -12,21 +12,15 @@ export const metadata = {
 };
 
 export default function Contact() {
-  // const a = Math.random();
-
-  // console.log(a);
-
   return (
     <div className={styles.container}>
-      <div className={styles.imgContainer}>
+      {/* <div className={styles.imgContainer}>
         <Image src="/contact.png" alt="" fill className={styles.img} />
-      </div>
+      </div> */}
       <div className={styles.formContainer}>
-        {/* <HydrationTestNoSSR/> */}
-        {/* <div suppressHydrationWarning>{a}</div> */}
         <form action="" className={styles.form}>
-          <input type="text" placeholder="Name and Surname" />
-          <input type="text" placeholder="Email Address" />
+          <input type="text" placeholder="Full Name" />
+          <input type="text" placeholder="Email" />
           <input type="text" placeholder="Phone Number (Optional)" />
           <textarea
             name=""

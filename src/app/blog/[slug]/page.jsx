@@ -21,7 +21,7 @@ export const generateMetadata = async ({ params }) => {
   const post = await getPost(slug);
 
   return {
-    title: post.title,
+    // title: post.title,
     description: post.desc,
   };
 };
