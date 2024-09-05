@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 import SmoothScroll from '@/components/smoothScroll';
 import Projects from '@/components/projects';
 import Dashboard from '@/components/dashboard/dashboard';
+import Blog from './blog/page';
+import About from './about/page';
 
 const Earth = dynamic(() => import('@/components/earth'), {
   ssr: false,
@@ -20,6 +22,8 @@ export default function Home() {
         <Projects />
       </main>
     </SmoothScroll>
+    <Blog />
+    <About />
     </div>
   )
 }
